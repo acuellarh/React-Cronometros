@@ -18,6 +18,7 @@ class App extends Component {
     this.setState({
       users: this.state.users.concat({id: objID, name: this.state.name, lastname: this.state.lastname})
     }) 
+    event.target.reset()
     
   }
 
