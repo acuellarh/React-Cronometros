@@ -12,3 +12,18 @@ form {
 table {
   margin-top: 40px;
 }
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+
+}
+
+.item {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.btn2 {
+  width: 140px; 
+}
