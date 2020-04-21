@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
+import { Card, Button } from 'react-bootstrap';
+import { FaPencilAlt,FaTrashAlt } from "react-icons/fa";
+
 
 class App extends Component {
   
   constructor(props) {
     super(props); 
     this.state = {
-      timers: [],
+      timers: [
+        { id: 1, title: "Leer", project: "React" },    
+        { id: 2, title: "imprimir", project: "Makeit" }
+      ],
       errors: {
         title: false,
         project: false
@@ -22,7 +28,7 @@ class App extends Component {
           project: !project
         }
       })
-      return false
+      return false      
     }
     return true
   }
@@ -67,12 +73,56 @@ class App extends Component {
     }
   }
 
+  // renderTimer(timer, index) {
+  //   return (
+  //     <tr key={index}>
+  //       <td>{timer.title}</td>
+  //       <td>{timer.project}</td>
+  //     </tr>
+  //   )
+  // }
+
+  // renderTimer(timer, index) {
+  //   return (
+  //   <div className="row">
+  //     <div className="col-sm-4 col-sm-offset-4">          
+  //       <form>
+  //         <p>{timer.title}</p>
+  //         <p>{timer.project}</p>                    
+  //       </form>        
+  //     </div>
+  //   </div> 
+  //   )
+  // }
+
   renderTimer(timer, index) {
     return (
-      <tr key={index}>
-        <td>{timer.title}</td>
-        <td>{timer.project}</td>
-      </tr>
+    <div className="row">
+      <div className="col-sm-4 col-sm-offset-4">               
+        {/* <p>{timer.project}</p>*/}
+        <form>
+          <Card>
+            <Card.Body>
+            <Card.Title><strong>{timer.title}</strong></Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{timer.project}</Card.Subtitle>
+            <Card.Text>
+               Some quick example text to build on the card title and make up the bulk of
+              the card's content.
+            </Card.Text>           
+            <Card.Text className="btn-align ">
+              <button className="button-transparent" >                
+                <FaTrashAlt color='' size='1.0em'/>
+              </button>
+              <button className="" >                
+                <FaPencilAlt color='' size='1.0em'/>
+              </button>      
+            </Card.Text>           
+            <Button variant="success" block>Start</Button>          
+          </Card.Body>      
+          </Card>
+        </form>  
+      </div>
+    </div> 
     )
   }
 
@@ -103,22 +153,10 @@ class App extends Component {
                 </div>
               </div>
             </form>
-
-            <table className="table bordered-table table-striped">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Project</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.timers.map(this.renderTimer)}
-              </tbody>
-            </table>
-
           </div>
         </div>
-      </div>
+        {this.state.timers.map(this.renderTimer)}      
+      </div>  
     )
   }
 }
