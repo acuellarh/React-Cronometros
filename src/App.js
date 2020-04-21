@@ -110,10 +110,10 @@ class App extends Component {
               the card's content.
             </Card.Text>           
             <Card.Text className="btn-align ">
-              <button className="button-transparent" >                
+              <button className="button-transparent">                
                 <FaTrashAlt color='' size='1.0em'/>
-              </button>
-              <button className="" >                
+              </button>              
+              <button className="button-transparent">                
                 <FaPencilAlt color='' size='1.0em'/>
               </button>      
             </Card.Text>           
