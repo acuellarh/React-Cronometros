@@ -29,7 +29,11 @@ class App extends Component {
 
   triggerCancel(){
     this.setState({
-      cancel: true
+      cancel: true,
+      errors: {
+        title: false,
+        project: false
+      }
     })
   }
 
