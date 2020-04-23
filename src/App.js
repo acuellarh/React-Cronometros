@@ -82,50 +82,10 @@ class App extends Component {
     console.log("should go to edit mode")
   }
 
-  // edit = (e) => { 
-  //   // Do whatever you want
-  //   e.preventDefault()
-  //   console.log("Hello")
-  // }
-
-
   edit(event){
     event.preventDefault()
     console.log("should go to edit mode")
   }
-
-  // renderTimer(timer, index) {
-  //   return (
-  //   <div className="row" key={index}>
-  //     <div className="col-sm-4 col-sm-offset-4">    
-  //       <form>
-  //         <Card>
-  //           <Card.Body>
-  //           <Card.Title><strong>{timer.title}</strong></Card.Title>
-  //           <Card.Subtitle className="mb-2 text-muted">{timer.project}</Card.Subtitle>
-  //           <Card.Text>
-  //              Some quick example text to build on the card title and make up the bulk of
-  //             the card's content.
-  //           </Card.Text>           
-  //           <Card.Text className="btn-align ">
-  //             <button className="button-transparent">                
-  //               <FaTrashAlt color='' size='1.0em'/>
-  //             </button>              
-  //             {/* <button className="button-transparent" onClick={this.ChangeEditMode.bind(this)} > */}
-  //             {/* <button className="button-transparent" onClick={() => this.edit(timer)}>  */}
-  //             {/* <button className="button-transparent" onClick={this.edit.bind(this)}>  */}
-  //             <button className="button-transparent" onClick={this.editData.bind(this)}>                             
-  //               Editar <FaPencilAlt color='' size='1.0em' />
-  //             </button>      
-  //           </Card.Text>           
-  //           <Button variant="success" block>Start</Button>          
-  //         </Card.Body>      
-  //         </Card>
-  //       </form>  
-  //     </div>
-  //   </div> 
-  //   )
-  // }
 
   render() {
     return (
@@ -156,46 +116,30 @@ class App extends Component {
             </form>
           </div> {/* div col */}
         </div> {/* div row*/}
-        {/* {this.state.timers.map(this.renderTimer)} */}
-
-          {this.state.timers.map ((timer, index) =>
-
-               
-
-            <div className="row" key={index}>
-              <div className="col-sm-4 col-sm-offset-4">    
-                <form>
-                  <Card>
-                    <Card.Body>
-                    <Card.Title><strong>{timer.title}</strong></Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{timer.project}</Card.Subtitle>
-                    <Card.Text>
-                      Some quick example text to build on the card title and make up the bulk of
-                      the card's content.
-                    </Card.Text>           
-                    <Card.Text className="btn-align ">
-                      {/* <button className="button-transparent">                
-                        <FaTrashAlt color='' size='1.0em'/>
-                      </button>               */}
-                      {/* <button className="button-transparent" onClick={this.ChangeEditMode.bind(this)} > */}
-                      {/* <button className="button-transparent" onClick={() => this.edit(timer)}>  */}
-                      {/* <button className="button-transparent" onClick={this.edit.bind(this)}>  */}
-
-                      {/* <button className="button-transparent" >                             
-                        Editar <FaPencilAlt color='' size='1.0em' />
-                      </button>       */}
-
-                     <Button variant="light"  > <FaTrashAlt  color='' size='1.0em' /> </Button> 
-                     <Button variant="light" onClick={this.edit.bind(this)} > <FaPencilAlt color='' size='1.0em' /> </Button> 
-
-                    </Card.Text>           
-                    <Button variant="success" block > Start</Button>          
-                  </Card.Body>      
-                  </Card>
-                </form>  
-              </div>{/* div col */}
-            </div>  
-          )}
+      
+        {this.state.timers.map ((timer, index) =>
+          <div className="row" key={index}>
+            <div className="col-sm-4 col-sm-offset-4">    
+              <form>
+                <Card>
+                  <Card.Body>
+                  <Card.Title><strong>{timer.title}</strong></Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">{timer.project}</Card.Subtitle>
+                  <Card.Text>
+                    Some quick example text to build on the card title and make up the bulk of
+                    the card's content.
+                  </Card.Text>           
+                  <Card.Text className="btn-align ">
+                    <Button variant="light"  > <FaTrashAlt  color='' size='1.0em' /> </Button> 
+                    <Button variant="light" onClick={this.edit.bind(this)} > <FaPencilAlt color='' size='1.0em' /> </Button> 
+                  </Card.Text>           
+                  <Button variant="success" block > Start</Button>          
+                </Card.Body>      
+                </Card>
+              </form>  
+            </div>{/* div col */}
+          </div>  
+        )}
 
       </div>  
     )
