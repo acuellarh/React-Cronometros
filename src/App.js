@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { FaPencilAlt,FaTrashAlt } from "react-icons/fa";
 
+// https://www.youtube.com/watch?v=WTh54FMNrbU
+
 
 class App extends Component {
   
@@ -18,6 +20,8 @@ class App extends Component {
       },    
       cancel: false  
     }
+    this.triggerCancel = this.triggerCancel.bind(this)
+    this.ChangeEditMode = this.ChangeEditMode.bind(this)
   }
 
   validateForm(title, project) {
@@ -73,33 +77,27 @@ class App extends Component {
     }
   }
 
-  // renderTimer(timer, index) {
-  //   return (
-  //     <tr key={index}>
-  //       <td>{timer.title}</td>
-  //       <td>{timer.project}</td>
-  //     </tr>
-  //   )
+  ChangeEditMode = (e) => {
+    e.preventDefault()
+    console.log("should go to edit mode")
+  }
+
+  // edit = (e) => { 
+  //   // Do whatever you want
+  //   e.preventDefault()
+  //   console.log("Hello")
   // }
 
-  // renderTimer(timer, index) {
-  //   return (
-  //   <div className="row">
-  //     <div className="col-sm-4 col-sm-offset-4">          
-  //       <form>
-  //         <p>{timer.title}</p>
-  //         <p>{timer.project}</p>                    
-  //       </form>        
-  //     </div>
-  //   </div> 
-  //   )
-  // }
+
+  edit(event){
+    event.preventDefault()
+    console.log("should go to edit mode")
+  }
 
   renderTimer(timer, index) {
     return (
-    <div className="row">
-      <div className="col-sm-4 col-sm-offset-4">               
-        {/* <p>{timer.project}</p>*/}
+    <div className="row" key={index}>
+      <div className="col-sm-4 col-sm-offset-4">    
         <form>
           <Card>
             <Card.Body>
@@ -113,8 +111,11 @@ class App extends Component {
               <button className="button-transparent">                
                 <FaTrashAlt color='' size='1.0em'/>
               </button>              
-              <button className="button-transparent">                
-                <FaPencilAlt color='' size='1.0em'/>
+              {/* <button className="button-transparent" onClick={this.ChangeEditMode.bind(this)} > */}
+              {/* <button className="button-transparent" onClick={() => this.edit(timer)}>  */}
+              {/* <button className="button-transparent" onClick={this.edit.bind(this)}>  */}
+              <button className="button-transparent">                             
+                Editar <FaPencilAlt color='' size='1.0em' />
               </button>      
             </Card.Text>           
             <Button variant="success" block>Start</Button>          
@@ -151,11 +152,11 @@ class App extends Component {
                 <div className="item">
                   <button type="submit" className="btn btn-danger btn2" name="not_ahead" value={this.state.cancel} onClick={this.triggerCancel.bind(this)}>Cancel</button>                  
                 </div>
-              </div>
+              </div>   
             </form>
           </div>
         </div>
-        {this.state.timers.map(this.renderTimer)}      
+        {this.state.timers.map(this.renderTimer)}
       </div>  
     )
   }
