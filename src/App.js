@@ -19,14 +19,10 @@ class App extends Component {
         title: false,
         project: false
       },    
-      cancel: false, 
-      index_val: 2 
+      cancel: false     
     }
-    this.triggerCancel = this.triggerCancel.bind(this)
-    this.ChangeEditMode = this.ChangeEditMode.bind(this)
-  }
-
- 
+    this.triggerCancel = this.triggerCancel.bind(this)    
+  } 
 
   validateForm(title, project) {
     if (!title || !project) {
@@ -56,6 +52,7 @@ class App extends Component {
     const title = event.target['title'].value
     const project = event.target['project'].value
     const not_ahead = this.state.cancel
+    const id_val = this.state.timers.length
 
     if(not_ahead){        
         event.target.reset()
@@ -66,6 +63,7 @@ class App extends Component {
       
       if (this.validateForm(title, project)) {
         const newData = {
+          id: id_val,
           title: title,
           project: project,
           edit: true
@@ -82,12 +80,7 @@ class App extends Component {
     }
   }
 
-  ChangeEditMode = (e) => {
-    e.preventDefault()
-    console.log("should go to edit mode")
-  }
-
-  edit (id_clicked, event)  {     
+  changeEditMode (id_clicked, event)  {     
     const newTimers = this.state.timers.map(timer => {
       if (timer.id === id_clicked){
         timer.edit = !timer.edit
@@ -121,30 +114,33 @@ class App extends Component {
     const indexValue = index
     console.log("el id borrado fue " + indexValue)    
     this.state.timers.splice(indexValue, 1)
-    this.setState({    
-      timers: this.state.timers  
+
+    const newTimers = this.state.timers.map((timer, index) => {
+      if (true){
+        timer.id = index
+      }
+      return timer
+    });  
+       
+    this.setState({
+      timers: newTimers   
     })
   }
 
   render() {
     return (
-
       <div className="container"> 
         <div className="row">
-          <div className="col-sm-4 col-sm-offset-4">
-                       
-            <form onSubmit={this.addData.bind(this)} >             
-              
+          <div className="col-sm-4 col-sm-offset-4">                       
+            <form onSubmit={this.addData.bind(this)} >              
               <div className={`form-group ${this.state.errors.title ? 'has-error' : null}`}>  
                 <label htmlFor="first-name">Title</label>
                 <input type="text" className="form-control" name="title" />
-              </div>
-              
+              </div>              
               <div className={`form-group ${this.state.errors.project ? 'has-error' : null}`}>
                 <label htmlFor="last-name">Project</label>
                 <input type="text" className="form-control" name="project" />
               </div>
-
               <div className="flex-container">
                 <div className="item">
                   <button type="submit" className="btn btn-success btn2" name="go_ahead">Create</button>              
@@ -171,16 +167,12 @@ class App extends Component {
                       the card's content.
                     </Card.Text>         
                     <Card.Text className="btn-align ">                     
-                      <Button variant="light" onClick={this.delete.bind(this, index)}> <FaTrashAlt  color='' size='1.0em' /> </Button> 
-                      {/* <Button variant="light" onClick={this.delete.bind(this, timer.id)}> <FaTrashAlt  color='' size='1.0em' /> </Button>  */}
-                      <Button variant="light" onClick={this.edit.bind(this, timer.id)} > <FaPencilAlt color='' size='1.0em' /> </Button> 
+                      <Button variant="light" onClick={this.delete.bind(this, index)}> <FaTrashAlt  color='' size='1.0em' /> </Button>              
+                      <Button variant="light" onClick={this.changeEditMode.bind(this, timer.id)} > <FaPencilAlt color='' size='1.0em' /> </Button> 
                     </Card.Text>           
                     <Button variant="success" block > Start</Button>          
                   </Card.Body>      
                   </Card>
-                  
-
-
                 </form>  
               </div>
               :              
@@ -194,16 +186,14 @@ class App extends Component {
                     <label htmlFor="project">Project</label>
                     <input type="text" defaultValue={timer.project} name="project" />
                   </div>
-
                   <div className="flex-container">
                     <div className="item">
                       <button type="submit" className="btn btn-success btn2" >Update</button>              
                     </div>
                     <div className="item">
-                      <button type="submit" className="btn btn-danger btn2" onClick={this.edit.bind(this, timer.id)}>Cancel</button>                  
+                      <button type="submit" className="btn btn-danger btn2" onClick={this.changeEditMode.bind(this, timer.id)}>Cancel</button>                  
                     </div>
-                  </div> 
-                    
+                  </div>                    
                 </form>  
               </div>
             }
