@@ -11,18 +11,22 @@ class App extends Component {
     super(props); 
     this.state = {
       timers: [
-        { id: 1, title: "Leer", project: "React", edit:true },    
-        { id: 2, title: "imprimir", project: "Makeit", edit:false }
+        { id: 0, title: "title0 ", project: "React0", edit:true},    
+        { id: 1, title: "title1 ", project: "React1", edit:true },     
+        { id: 2, title: "title2 ", project: "Makeit2", edit:true}
       ],
       errors: {
         title: false,
         project: false
       },    
-      cancel: false  
+      cancel: false, 
+      index_val: 2 
     }
     this.triggerCancel = this.triggerCancel.bind(this)
     this.ChangeEditMode = this.ChangeEditMode.bind(this)
   }
+
+ 
 
   validateForm(title, project) {
     if (!title || !project) {
@@ -64,6 +68,7 @@ class App extends Component {
         const newData = {
           title: title,
           project: project,
+          edit: true
         }
         this.setState({
           timers: [...this.state.timers, newData],
@@ -86,6 +91,7 @@ class App extends Component {
     const newTimers = this.state.timers.map(timer => {
       if (timer.id === id_clicked){
         timer.edit = !timer.edit
+        console.log("el id para editar es " + timer.id)
       }
       return timer
     })    
@@ -111,8 +117,18 @@ class App extends Component {
     })  
   }
 
+  delete (index)  { 
+    const indexValue = index
+    console.log("el id borrado fue " + indexValue)    
+    this.state.timers.splice(indexValue, 1)
+    this.setState({    
+      timers: this.state.timers  
+    })
+  }
+
   render() {
     return (
+
       <div className="container"> 
         <div className="row">
           <div className="col-sm-4 col-sm-offset-4">
@@ -153,14 +169,18 @@ class App extends Component {
                     <Card.Text>
                       Some quick example text to build on the card title and make up the bulk of
                       the card's content.
-                    </Card.Text>           
-                    <Card.Text className="btn-align ">
-                      <Button variant="light"  > <FaTrashAlt  color='' size='1.0em' /> </Button> 
+                    </Card.Text>         
+                    <Card.Text className="btn-align ">                     
+                      <Button variant="light" onClick={this.delete.bind(this, index)}> <FaTrashAlt  color='' size='1.0em' /> </Button> 
+                      {/* <Button variant="light" onClick={this.delete.bind(this, timer.id)}> <FaTrashAlt  color='' size='1.0em' /> </Button>  */}
                       <Button variant="light" onClick={this.edit.bind(this, timer.id)} > <FaPencilAlt color='' size='1.0em' /> </Button> 
                     </Card.Text>           
                     <Button variant="success" block > Start</Button>          
                   </Card.Body>      
                   </Card>
+                  
+
+
                 </form>  
               </div>
               :              
