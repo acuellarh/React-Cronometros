@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { FaPencilAlt,FaTrashAlt } from "react-icons/fa";
+import Cronometro from './components/Cronometro';
 
 // https://www.youtube.com/watch?v=WTh54FMNrbU
 
@@ -11,9 +12,10 @@ class App extends Component {
     super(props); 
     this.state = {
       timers: [
-        { id: 0, title: "title0 ", project: "React0", edit:true},    
-        { id: 1, title: "title1 ", project: "React1", edit:true },     
-        { id: 2, title: "title2 ", project: "Makeit2", edit:true}
+        { id: 0, title: "Alejandro ", project: "React0", edit:true, time: 40, optn:'start'},    
+        { id: 1, title: "title1 ", project: "React1", edit:true, time: 180, optn:'start' },     
+        { id: 2, title: "title2 ", project: "React2", edit:true, time: 3660, optn:'start' }     
+     
       ],
       errors: {
         title: false,
@@ -66,7 +68,9 @@ class App extends Component {
           id: id_val,
           title: title,
           project: project,
-          edit: true
+          edit: true,
+          time: 0,
+          optn:'start'
         }
         this.setState({
           timers: [...this.state.timers, newData],
@@ -127,6 +131,53 @@ class App extends Component {
     })
   }
 
+  getSeconds = (s) => {
+    return  Math.floor(s % 60);
+  }
+
+  getMinutes = (s) =>{
+    return  Math.floor(s / 60) % 60;
+  }
+
+  getHour = (s) =>{
+    return Math.floor(s / 60 / 60);
+  }
+
+  handleClickStart = (i, index) =>{
+    this.toggle(index)
+    const count = setInterval(() => {
+      this.setState({
+        timers: this.state.timers.map((timer,ind) => {
+          if (i.id === timer.id){
+            timer.time = timer.time + 1
+            timer.count = count
+          }
+          return timer
+        })
+      });
+    }, 1000)
+  }
+
+  handleClickStop = (i, index) =>{
+    this.toggle(index)
+    clearInterval(i.count);
+  }
+
+  toggle(index){
+    this.setState({
+      timers: this.state.timers.map((timer,i) => {
+        if (index === i){
+          if (timer.optn === "start"){
+            timer.optn = "stop"
+          }else if (timer.optn === "stop"){
+            timer.optn = "start"
+          }
+        }
+        return timer
+      })
+    })
+  }
+
   render() {
     return (
       <div className="container"> 
@@ -162,15 +213,20 @@ class App extends Component {
                     <Card.Body>
                     <Card.Title><strong>{timer.title}</strong></Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">{timer.project}</Card.Subtitle>
-                    <Card.Text>
-                      Some quick example text to build on the card title and make up the bulk of
-                      the card's content.
-                    </Card.Text>         
+                      <Cronometro
+                      timer={timer}
+                      index={index}
+                      second={this.getSeconds(timer.time)}
+                      minute={this.getMinutes(timer.time)}
+                      hour={this.getHour(timer.time)}              
+                      onStart={() => this.handleClickStart(timer, index)}
+                      onStop={() => this.handleClickStop(timer , index)}                     
+                      />                
                     <Card.Text className="btn-align ">                     
                       <Button variant="light" onClick={this.delete.bind(this, index)}> <FaTrashAlt  color='' size='1.0em' /> </Button>              
                       <Button variant="light" onClick={this.changeEditMode.bind(this, timer.id)} > <FaPencilAlt color='' size='1.0em' /> </Button> 
                     </Card.Text>           
-                    <Button variant="success" block > Start</Button>          
+                   
                   </Card.Body>      
                   </Card>
                 </form>  
