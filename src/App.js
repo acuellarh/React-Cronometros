@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Card, Button } from 'react-bootstrap';
-import { FaPencilAlt,FaTrashAlt } from "react-icons/fa";
+import { Card } from 'react-bootstrap';
 import Cronometro from './components/Cronometro';
-
 // https://www.youtube.com/watch?v=WTh54FMNrbU
 
 
@@ -12,9 +10,9 @@ class App extends Component {
     super(props); 
     this.state = {
       timers: [
-        { id: 0, title: "Alejandro ", project: "React0", edit:true, time: 40, optn:'start'},    
-        { id: 1, title: "title1 ", project: "React1", edit:true, time: 180, optn:'start' },     
-        { id: 2, title: "title2 ", project: "React2", edit:true, time: 3660, optn:'start' }     
+        { id: 0, title: "Practicing React", project: "Frontend", edit:true, time: 40, optn:'start'},    
+        { id: 1, title: "Reading Javascript ", project: "Frontend", edit:true, time: 180, optn:'start'},     
+        { id: 2, title: "Learning Node", project: "Backend JS", edit:true, time: 3660, optn:'start'}     
      
       ],
       errors: {
@@ -70,7 +68,8 @@ class App extends Component {
           project: project,
           edit: true,
           time: 0,
-          optn:'start'
+          optn:'start',
+          count:0
         }
         this.setState({
           timers: [...this.state.timers, newData],
@@ -114,7 +113,10 @@ class App extends Component {
     })  
   }
 
-  delete (index)  { 
+   delete (index)  {    
+    const i = this.state.timers[index]
+    clearInterval(i.count);
+
     const indexValue = index
     console.log("el id borrado fue " + indexValue)    
     this.state.timers.splice(indexValue, 1)
@@ -220,13 +222,10 @@ class App extends Component {
                       minute={this.getMinutes(timer.time)}
                       hour={this.getHour(timer.time)}              
                       onStart={() => this.handleClickStart(timer, index)}
-                      onStop={() => this.handleClickStop(timer , index)}                     
-                      />                
-                    <Card.Text className="btn-align ">                     
-                      <Button variant="light" onClick={this.delete.bind(this, index)}> <FaTrashAlt  color='' size='1.0em' /> </Button>              
-                      <Button variant="light" onClick={this.changeEditMode.bind(this, timer.id)} > <FaPencilAlt color='' size='1.0em' /> </Button> 
-                    </Card.Text>           
-                   
+                      onStop={() => this.handleClickStop(timer , index)}                      
+                      onDelete={() => this.delete(index)}                      
+                      onEdit={() => this.changeEditMode(timer.id)}
+                      />                   
                   </Card.Body>      
                   </Card>
                 </form>  
