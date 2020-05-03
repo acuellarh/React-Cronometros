@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Card } from 'react-bootstrap';
 import Cronometro from './components/Cronometro';
+import { FaPlusSquare} from "react-icons/fa";
+import { Button} from 'react-bootstrap';
 // https://www.youtube.com/watch?v=WTh54FMNrbU
 
 
@@ -19,7 +21,8 @@ class App extends Component {
         title: false,
         project: false
       },    
-      cancel: false     
+      cancel: false, 
+      showInputForm: true    
     }
     this.triggerCancel = this.triggerCancel.bind(this)    
   } 
@@ -57,7 +60,8 @@ class App extends Component {
     if(not_ahead){        
         event.target.reset()
         this.setState({
-          cancel: false
+          cancel: false,
+          showInputForm: !this.state.showInputForm
         })
     } else {
       
@@ -76,7 +80,8 @@ class App extends Component {
           errors: {
             title: false,
             project: false
-          }
+          },
+          showInputForm: !this.state.showInputForm
         })
         event.target.reset()
       }
@@ -108,8 +113,8 @@ class App extends Component {
       }
       return timer
     })    
-    this.setState({
-      timers: newTimers   
+    this.setState({    
+      timers: newTimers
     })  
   }
 
@@ -180,31 +185,13 @@ class App extends Component {
     })
   }
 
+  toggleInputForm() {
+    this.setState({ showInputForm: !this.state.showInputForm });
+  }
+
   render() {
-    return (
-      <div className="container"> 
-        <div className="row">
-          <div className="col-sm-4 col-sm-offset-4">                       
-            <form onSubmit={this.addData.bind(this)} >              
-              <div className={`form-group ${this.state.errors.title ? 'has-error' : null}`}>  
-                <label htmlFor="first-name">Title</label>
-                <input type="text" className="form-control" name="title" />
-              </div>              
-              <div className={`form-group ${this.state.errors.project ? 'has-error' : null}`}>
-                <label htmlFor="last-name">Project</label>
-                <input type="text" className="form-control" name="project" />
-              </div>
-              <div className="flex-container">
-                <div className="item">
-                  <button type="submit" className="btn btn-success btn2" name="go_ahead">Create</button>              
-                </div>
-                <div className="item">
-                  <button type="submit" className="btn btn-danger btn2" name="not_ahead" value={this.state.cancel} onClick={this.triggerCancel.bind(this)}>Cancel</button>                  
-                </div>
-              </div>   
-            </form>
-          </div> {/* div col */}
-        </div> {/* div row*/}
+    return (      
+      <div className="container">
       
         {this.state.timers.map ((timer, index) =>
           <div className="row" key={index}>
@@ -235,12 +222,18 @@ class App extends Component {
                 <form onSubmit={this.updateComponentValue.bind(this, timer.id)}>            
                   <div>
                     <label htmlFor="title">Title</label>
-                    <input type="text" defaultValue={timer.title} name="title" />
+                    <div>
+                      <input type="text" defaultValue={timer.title} name="title" />
+                    </div>
                   </div>
+                  <br/>
                   <div>
                     <label htmlFor="project">Project</label>
-                    <input type="text" defaultValue={timer.project} name="project" />
-                  </div>
+                    <div>
+                      <input type="text" defaultValue={timer.project} name="project" />
+                    </div>
+                  </div>                  
+                  <br/>
                   <div className="flex-container">
                     <div className="item">
                       <button type="submit" className="btn btn-success btn2" >Update</button>              
@@ -255,9 +248,38 @@ class App extends Component {
           </div>  
         )}
 
+        <div className="row">
+          <div className="col-sm-4 col-sm-offset-4">      
+
+            {this.state.showInputForm ?           
+              <div  className="btn-align-center">
+                <Button variant="light" onClick={this.toggleInputForm.bind(this)}> <FaPlusSquare  color='gray' size='3.0em' /> </Button>              
+              </div>
+              :
+              <form onSubmit={this.addData.bind(this)} >              
+                <div className={`form-group ${this.state.errors.title ? 'has-error' : null}`}>  
+                  <label htmlFor="first-name">Title</label>
+                  <input type="text" className="form-control" name="title" />
+                </div>              
+                <div className={`form-group ${this.state.errors.project ? 'has-error' : null}`}>
+                  <label htmlFor="last-name">Project</label>
+                  <input type="text" className="form-control" name="project" />
+                </div>
+                <div className="flex-container">
+                  <div className="item">
+                    <button type="submit" className="btn btn-success btn2" name="go_ahead">Create</button>              
+                  </div>
+                  <div className="item">
+                    <button type="submit" className="btn btn-danger btn2" name="not_ahead" value={this.state.cancel} onClick={this.triggerCancel.bind(this)}>Cancel</button>                  
+                  </div>
+                </div>   
+              </form>        
+            }
+          </div> {/* div col */}
+        </div> {/* div row*/} 
       </div>  
     )
-  }
+  } 
 }
 
 export default App
